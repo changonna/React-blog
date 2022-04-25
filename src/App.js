@@ -11,8 +11,9 @@ function App() {
     // state는 var와 달리 자동 재렌더링 됨.;
     let [title, setTitle] = useState(['남자코트 추천', '강남 우동맛집', '파이썬독학']);
     let date = '2월 17일 발행';
-
     let [따봉, 따봉변경] = useState(0);
+
+    let [modal, setModal] = useState(false);
 
     return (
         <div className="App">
@@ -24,7 +25,7 @@ function App() {
             
             <button onClick={() => {
                 let copy = [...title];
-                copy = copy.sort();
+                copy.sort();
                 setTitle(copy);
             }}>가나다순정렬</button>
             
@@ -41,14 +42,51 @@ function App() {
                 <p>{date}</p>
             </div>
             <div className="list">
-                <h4>{title[1]}</h4>
+                <h4>{title[0]}</h4>
                 <p>{date}</p>
             </div>
             <div className="list">
-                <h4>{title[2]}</h4>
+                <h4 onClick={()=>{ setModal(!modal) }}>{title[1]}</h4>
                 <p>{date}</p>
             </div>
+
+            <div>
+                <h1>{modal}</h1>
+            </div>
+
+            {/* javascript 쓰려면 중괄호{}를 열어준다. */}
+            {
+                modal == true ? <Modal/> : null
+            }
+
         </div>
+    );
+}
+
+/* 컴포넌트로 만들면 좋은 것
+* 1. 반복적인 html 축약
+* 2. 큰 페이지
+* 3. 자주변경되는 것 */
+
+/* 컴포넌트 만드는 법
+    1. function 만들기 [ App() 밖으로 뺴서 사용 ]
+    2. return()안에 html 담기
+    3. <함수명></함수명> 쓰기 */
+
+// function Modal() {           // function으로 사용.
+const Modal = () => {           // 변수 const를 사용해서 나중에 변경시 에러뜨게.
+    return (
+        // 가장 바깥 태그는 한 개만 가능하다.
+        // 여러개 일때는 <></>로 묶어서 사용하자.
+        <>
+            <div className="modal">
+                <h4>제목</h4>
+                <p>날짜</p>
+                <p>상세내용</p>
+            </div>
+            <div>
+            </div>
+        </>
     );
 }
 
