@@ -10,10 +10,19 @@ function App() {
     // let[a, b] -> a : 데이터 , b : state 변경도와주는 함수
     // state는 var와 달리 자동 재렌더링 됨.;
     let [title, setTitle] = useState(['남자코트 추천', '강남 우동맛집', '파이썬독학']);
-    let date = '2월 17일 발행';
-    let [따봉, 따봉변경] = useState(0);
+    let date = ['2월 17일 발행', '2월 18일 발행', '2월 19일 발행'];
+    let [따봉, 따봉변경] = useState([0, 0, 0]);
 
     let [modal, setModal] = useState(false);
+
+    /* map 함수
+    * 1. array 자료 갯수만큼 함수안의 코드 실행해줌
+    * 2. 함수의 파라미터는 array안에 있던 자료
+    * 3. return에 값 적으면 array로 담아줌 */
+    [1,2,3].map(function(a){
+        // console.log(a);
+        return '1233211'
+    });
 
     return (
         <div className="App">
@@ -36,19 +45,41 @@ function App() {
                 setTitle(copy);
             }}>글수정</button>
             
-            <div className="list">
-                {/* 3. {변수명} */}
-                <h4>{title[0]} <span onClick={ ()=>{ 따봉변경(따봉+1) } }>👍</span> {따봉} </h4>
-                <p>{date}</p>
-            </div>
-            <div className="list">
-                <h4>{title[0]}</h4>
-                <p>{date}</p>
-            </div>
-            <div className="list">
-                <h4 onClick={()=>{ setModal(!modal) }}>{title[1]}</h4>
-                <p>{date}</p>
-            </div>
+            {/*<div className="list">*/}
+            {/*    /!* 3. {변수명} *!/*/}
+            {/*    <h4>{title[0]} <span onClick={ ()=>{ 따봉변경(따봉+1) } }>👍</span> {따봉} </h4>*/}
+            {/*    <p>{date}</p>*/}
+            {/*</div>*/}
+            {/*<div className="list">*/}
+            {/*    <h4>{title[0]}</h4>*/}
+            {/*    <p>{date}</p>*/}
+            {/*</div>*/}
+            {/*<div className="list">*/}
+            {/*    <h4 onClick={()=>{ setModal(!modal) }}>{title[1]}</h4>*/}
+            {/*    <p>{date}</p>*/}
+            {/*</div>*/}
+
+
+            {
+                /* 중괄호 안에는 for문을 쓸 수 없어서 map 함수를 사용한다. */
+                // [1, 2, 3].map(function() {
+                title.map(function(a, i) {
+                    return (
+                        // React는 Array안에 html 담아놔도 잘 보여준다.
+                        // 각 div마다 unique한 key 값을 정해줘야한다.
+                        <div className="list" key={i}>
+                            <h4 onClick={()=>{ setModal(!modal) }}> { title[i] }
+                                <span onClick={() => {
+                                    let copy = [...따봉];
+                                    copy[i] += 1;
+                                    따봉변경(copy);
+                                }}>👍</span> { 따봉[i] }
+                            </h4>
+                            <p>{ date[i] }</p>
+                        </div>
+                    )
+                })
+            }
 
             <div>
                 <h1>{modal}</h1>
