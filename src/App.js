@@ -87,7 +87,10 @@ function App() {
 
             {/* javascript 쓰려면 중괄호{}를 열어준다. */}
             {
-                modal == true ? <Modal/> : null
+                /* 부모 -> 자식 state 전송하는법 (자식에서 부모로는 불가능)
+                * 1. <자식컴포넌트 작명={state이름}
+                * 2. 함수에 props 파라미터 등록 후 props.작명 사용 */
+                modal == true ? <Modal color={'yellow'} title={title} setTitle={setTitle}/> : null
             }
 
         </div>
@@ -105,20 +108,32 @@ function App() {
     3. <함수명></함수명> 쓰기 */
 
 // function Modal() {           // function으로 사용.
-const Modal = () => {           // 변수 const를 사용해서 나중에 변경시 에러뜨게.
+const Modal = (props) => {           // 변수 const를 사용해서 나중에 변경시 에러뜨게.
     return (
         // 가장 바깥 태그는 한 개만 가능하다.
         // 여러개 일때는 <></>로 묶어서 사용하자.
         <>
-            <div className="modal">
-                <h4>제목</h4>
+            <div className="modal" style={{background : props.color}}>
+                <h4>{props.title[0]}</h4>
                 <p>날짜</p>
                 <p>상세내용</p>
+                <button onClick={() => {                {/* 버튼 클릭시 첫 글 제목이 '여자코트 추천'으로 바뀌는 기능 */}
+                    let copyTitle = [...props.title];   // setTitle 함수를 props로 넘겨서 사용.
+                    copyTitle[0] = '여자코트 추천';
+                    props.setTitle(copyTitle);
+                }}>글수정</button>
             </div>
             <div>
             </div>
         </>
     );
+}
+
+const changeTitle = (props) => {
+    let copyTitle = [...props.title];
+    return (
+        copyTitle
+    )
 }
 
 export default App;
