@@ -136,4 +136,7 @@ const changeTitle = (props) => {
     )
 }
 
+// props를 응용한 상세페이지 만들기.
+
+
 export default App;
