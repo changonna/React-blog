@@ -15,6 +15,8 @@ function App() {
 
     let [modal, setModal] = useState(false);
 
+    let[titleNum, setTitleNum] = useState(0);
+
     /* map 함수
     * 1. array 자료 갯수만큼 함수안의 코드 실행해줌
     * 2. 함수의 파라미터는 array안에 있던 자료
@@ -68,7 +70,7 @@ function App() {
                         // React는 Array안에 html 담아놔도 잘 보여준다.
                         // 각 div마다 unique한 key 값을 정해줘야한다.
                         <div className="list" key={i}>
-                            <h4 onClick={()=>{ setModal(!modal) }}> { title[i] }
+                            <h4 onClick={()=>{ setModal(true); setTitleNum(i); }}> { title[i] }
                                 <span onClick={() => {
                                     let copy = [...따봉];
                                     copy[i] += 1;
@@ -90,7 +92,7 @@ function App() {
                 /* 부모 -> 자식 state 전송하는법 (자식에서 부모로는 불가능)
                 * 1. <자식컴포넌트 작명={state이름}
                 * 2. 함수에 props 파라미터 등록 후 props.작명 사용 */
-                modal == true ? <Modal color={'yellow'} title={title} setTitle={setTitle}/> : null
+                modal == true ? <Modal color={'yellow'} title={title} setTitle={setTitle} titleNum={titleNum}/> : null
             }
 
         </div>
@@ -114,7 +116,7 @@ const Modal = (props) => {           // 변수 const를 사용해서 나중에 �
         // 여러개 일때는 <></>로 묶어서 사용하자.
         <>
             <div className="modal" style={{background : props.color}}>
-                <h4>{props.title[0]}</h4>
+                <h4>{props.title[props.titleNum]}</h4>
                 <p>날짜</p>
                 <p>상세내용</p>
                 <button onClick={() => {                {/* 버튼 클릭시 첫 글 제목이 '여자코트 추천'으로 바뀌는 기능 */}
@@ -123,17 +125,8 @@ const Modal = (props) => {           // 변수 const를 사용해서 나중에 �
                     props.setTitle(copyTitle);
                 }}>글수정</button>
             </div>
-            <div>
-            </div>
         </>
     );
-}
-
-const changeTitle = (props) => {
-    let copyTitle = [...props.title];
-    return (
-        copyTitle
-    )
 }
 
 // props를 응용한 상세페이지 만들기.
