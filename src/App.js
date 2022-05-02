@@ -10,12 +10,14 @@ function App() {
     // let[a, b] -> a : 데이터 , b : state 변경도와주는 함수
     // state는 var와 달리 자동 재렌더링 됨.;
     let [title, setTitle] = useState(['남자코트 추천', '강남 우동맛집', '파이썬독학']);
-    let date = ['2월 17일 발행', '2월 18일 발행', '2월 19일 발행'];
-    let [따봉, 따봉변경] = useState([0, 0, 0]);
+    let date = ['2월 17일 발행', '2월 18일 발행', '2월 19일 발행', '2월 20일 발행', '2월 21일 발행'];
+    let [따봉, 따봉변경] = useState([0, 0, 0, 0, 0]);
 
     let [modal, setModal] = useState(false);
 
-    let[titleNum, setTitleNum] = useState(0);
+    let [titleNum, setTitleNum] = useState(0);
+
+    let [입력값, 입력값변경] = useState('');
 
     /* map 함수
     * 1. array 자료 갯수만큼 함수안의 코드 실행해줌
@@ -71,17 +73,34 @@ function App() {
                         // 각 div마다 unique한 key 값을 정해줘야한다.
                         <div className="list" key={i}>
                             <h4 onClick={()=>{ setModal(true); setTitleNum(i); }}> { title[i] }
-                                <span onClick={() => {
+                                <span onClick={(e) => {
+                                    e.stopPropagation();    // 상위 html로 퍼지는 이벤트 버블링을 막고싶으면!
                                     let copy = [...따봉];
                                     copy[i] += 1;
                                     따봉변경(copy);
                                 }}>👍</span> { 따봉[i] }
                             </h4>
                             <p>{ date[i] }</p>
+                            <button onClick={(e) => {
+                                let copy = [...title];
+                                copy.splice(i, 1);  // arr.splice : i번째부터 1개만큼 삭제.
+                                setTitle(copy);
+                            }}> 글 삭제 </button>
                         </div>
                     )
                 })
             }
+
+            {/*이벤트 핸들러*/}
+            <input onChange={(e) => {
+                입력값변경(e.target.value);  // 이게 완료되기 전에
+                console.log(입력값);        //
+            }} />
+            <button onClick={(e) => {
+                let copy = [...title];
+                copy.push(입력값);
+                setTitle(copy);
+            }}> 글 등록 </button>
 
             <div>
                 <h1>{modal}</h1>
