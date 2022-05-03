@@ -2,6 +2,7 @@
 
 import './App.css';
 import {useState} from "react";
+import React from 'react';
 
 function App() {
 
@@ -98,7 +99,8 @@ function App() {
             }} />
             <button onClick={(e) => {
                 let copy = [...title];
-                copy.push(입력값);
+                // copy.push(입력값);      // arr 맨 뒤에 추가.
+                copy.unshift(입력값);      // arr 맨 앞에 추가.
                 setTitle(copy);
             }}> 글 등록 </button>
 
@@ -114,8 +116,35 @@ function App() {
                 modal == true ? <Modal color={'yellow'} title={title} setTitle={setTitle} titleNum={titleNum}/> : null
             }
 
+            <Profile/>
+
         </div>
+
     );
+
+}
+
+class Profile extends React.Component {
+    constructor() {
+        super();
+        this.state = { name : 'ncg', age : 30 }
+    }
+
+    changeName = () =>  {
+        this.setState({ name : 'nanacorn'})
+    }
+
+    render() {
+        return (
+            <div>
+                <div>프로필입니다.</div>
+                <p>저는 { this.state.name } 입니다.</p>
+                <button onClick={ () => {
+                    { this.changeName().bind(this) }
+                }}>버튼</button>
+            </div>
+        )
+    }
 }
 
 /* 컴포넌트로 만들면 좋은 것
